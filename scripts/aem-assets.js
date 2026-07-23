@@ -603,6 +603,15 @@ export function decorateExternalImages(ele) {
           }
         }
       });
+
+      // Preserve UE instrumentation so the replaced image stays editable in the UE canvas.
+      const extPictureImg = extPicture.querySelector('img');
+      [...extImage.attributes].forEach(({ nodeName, nodeValue }) => {
+        if (nodeName.startsWith('data-aue-') || nodeName.startsWith('data-richtext-')) {
+          extPictureImg?.setAttribute(nodeName, nodeValue);
+        }
+      });
+
       extImage.parentNode.replaceChild(extPicture, extImage);
     }
   });
